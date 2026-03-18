@@ -1,0 +1,15 @@
+git@github.com:chirpwireless/data-credits-service.git
+git@github.com:chirpwireless/user-profile-service.git
+git@github.com:chirpwireless/account-management-service.git
+git@github.com:chirpwireless/go-kit.git
+git@github.com:chirpwireless/event-service.git
+git@github.com:chirpwireless/subscription.git
+git@github.com:chirpwireless/organisation-service.git
+git@github.com:chirpwireless/automation-service.git
+git@github.com:chirpwireless/notification-service.git
+git@github.com:chirpwireless/resource-inventory-service.git
+git@github.com:chirpwireless/bff.git
+git@github.com:chirpwireless/chirp-frontend.git
+git@github.com:chirpwireless/go-boilerplate.git
+git@github.com:chirpwireless/rules-engine-executor.git
+git@github.com:chirpwireless/rule-modeler-engine.git
