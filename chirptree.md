@@ -184,5 +184,31 @@ Fullchirp/ – Monorepo for Chirp IoT platform; Clean Architecture standards cap
 │   │   └── infrastructure/ – Config (cleanenv), DB (sqlx), logger (slog), NATS JetStream, Tx manager
 │   ├── app/configs/ – Service config examples
 │   └── deploy/ – Helm values for dev, staging, kiloiot environments
+├── alarms-service/ – Alarm lifecycle management and notification orchestration for the IoT platform; Clean Architecture with two processes from a single Docker image
+│   ├── app/migrations/ – SQL migrations for alarm, inbox, dispatch, notification tables
+│   ├── app/config/ – Service configuration (config.yaml.example, .env.example, seed-example.json)
+│   ├── app/internal/
+│   │   ├── alarms/                    # Alarm domain module
+│   │   │   ├── domain/                # Alarm entities, value objects, fingerprinting, suppression
+│   │   │   ├── usecase/               # Alarm use cases (1 operation = 1 package: contract + usecase + test)
+│   │   │   ├── repository/            # Alarm persistence (severity_policy, alarm_schedule, escalation_policy, alarm_definition, alarm_event, dispatch_state)
+│   │   │   └── delivery/              # Alarm gRPC handlers (AlarmsService)
+│   │   ├── notifications/             # Notification domain module
+│   │   │   ├── domain/                # Notification entities, channel types (email/sms/push), verification
+│   │   │   ├── service/               # DeliveryRequester (maps SendRequest → delivery_requests)
+│   │   │   ├── repository/            # Notification persistence (delivery_requests, delivery_attempts, user_channels, verification, provider_configs)
+│   │   │   └── delivery/              # Notification consumers + gRPC handlers (NotificationChannelsService)
+│   │   ├── shared/ports/              # Cross-module interfaces (DeliveryRequester, DeliveryResultHandler)
+│   │   ├── app/grpc/                  # gRPC composition root (DI wiring for gRPC server process)
+│   │   ├── app/worker/                # Worker composition root (DI wiring for NATS consumer process)
+│   │   ├── domain/                    # Shared domain (errors)
+│   │   ├── infrastructure/            # DB, NATS JetStream, gRPC, config (cleanenv), logger (slog), Tx manager
+│   │   └── workers/inbox/             # Inbox pattern runner: claim → dispatch → handler → mark processed/failed; retry + recover stuck + fail stuck
+│   ├── app/test/integration/          # 225+ integration tests across 9 suites (e2e, trigger, dispatch, resolve, inbox, alarms_repo, notifications_repo, grpc_definitions, grpc_events)
+│   ├── deploy/                        # Helmfile producing two releases: alarms-grpc-service + alarms-worker
+│   │   └── values/{dev,staging,prod,kiloiot-dev,kiloiot-staging,kiloiot-prod}/ – Per-env Helm values
+│   ├── docs/alarms/                   # Architecture, API contracts, inbox/outbox patterns
+│   ├── Dockerfile                     # Single image; binary selected via CMD (grpc-server or worker)
+│   └── Makefile                       # build, test, test-integration, lint, proto, generate-mocks, dev-up/down, migrate
 └── Misc deploy/ directories – Helm/manifest definitions for each microservice plus docker-compose stacks for local dev
 ```

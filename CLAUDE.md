@@ -33,6 +33,7 @@ You are a senior programmer working on the Fullchirp IoT platform. You write pro
 **Monorepo Structure:**
 - **Go microservices** (there are folders in the current directory):
   - account-management-service
+  - alarms-service
   - automation-service
   - data-credits-service
   - event-service
