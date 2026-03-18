@@ -210,5 +210,28 @@ Fullchirp/ – Monorepo for Chirp IoT platform; Clean Architecture standards cap
 │   ├── docs/alarms/                   # Architecture, API contracts, inbox/outbox patterns
 │   ├── Dockerfile                     # Single image; binary selected via CMD (grpc-server or worker)
 │   └── Makefile                       # build, test, test-integration, lint, proto, generate-mocks, dev-up/down, migrate
+├── reusable-helm-chart/ – Shared Helm chart used by all Chirp microservices for Kubernetes deployments; published to GitHub Pages at `chirpwireless.github.io/reusable-helm-chart`; versioned via Conventional Commits + semantic-release
+│   ├── chart/Chart.yaml – Chart metadata (name: reusable-helm-chart, type: application, semver)
+│   ├── chart/values.yaml – All configurable defaults with inline examples
+│   ├── chart/values.schema.json – JSON Schema validation for values
+│   └── chart/templates/
+│       ├── deployment.yaml – Main Deployment (image, env, secrets, config, probes, resources, HPA)
+│       ├── service.yaml – ClusterIP/NodePort/LoadBalancer service with multi-port support
+│       ├── ingress.yaml – Ingress with TLS support
+│       ├── httproute.yaml – Gateway API HTTPRoute
+│       ├── hpa.yaml – HorizontalPodAutoscaler
+│       ├── configmap.yaml – ConfigMap (e.g. mounted config files)
+│       ├── secret.yaml – Inline secrets (base64)
+│       ├── externalsecrets.yaml – ExternalSecrets operator integration (Vault backend)
+│       ├── dbmigration.yaml – Pre-install Job running Liquibase migrations
+│       ├── cronjob.yaml – CronJob support for scheduled tasks
+│       ├── nats-jetstream-streams.yaml – NATS JetStream Stream CRDs (nats.io/v1beta2)
+│       ├── nats-jetstream-consumers.yaml – NATS JetStream Consumer CRDs (durable, ack-explicit)
+│       ├── serviceMonitor.yaml – Prometheus/VictoriaMetrics ServiceMonitor
+│       ├── serviceaccount.yaml, role.yaml, rolebinding.yaml, clusterrole.yaml, clusterrolebinding.yaml – RBAC
+│       ├── mongodb.yaml – MongoDB resource (operator-managed)
+│       ├── pvc.yaml – PersistentVolumeClaim
+│       ├── backendtrafficpolicy.yaml, securitypolicy.yaml – Envoy Gateway policies
+│       └── _helpers.tpl – Template helpers (fullname, labels, selectors)
 └── Misc deploy/ directories – Helm/manifest definitions for each microservice plus docker-compose stacks for local dev
 ```

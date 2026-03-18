@@ -14,3 +14,4 @@ git@github.com:chirpwireless/go-boilerplate.git
 git@github.com:chirpwireless/rules-engine-executor.git
 git@github.com:chirpwireless/rule-modeler-engine.git
 git@github.com:chirpwireless/alarms-service.git
+git@github.com:chirpwireless/reusable-helm-chart.git

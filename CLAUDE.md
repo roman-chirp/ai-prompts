@@ -413,6 +413,7 @@ Before committing, verify:
 - Helmfile templates: [`deploy/helmfile.yaml.gotmpl`](../go-boilerplate/deploy/helmfile.yaml.gotmpl) (see go-boilerplate for example)
 - Environment-specific values: [`deploy/values/{env}.yaml`](../go-boilerplate/deploy/values/) (see go-boilerplate for example)
 - Environments: dev, staging, prod, kiloiot-dev, kiloiot-staging, kiloiot-prod
+- **Shared Helm chart**: [`reusable-helm-chart/`](../reusable-helm-chart/) — all services use this chart via helmfile; supports deployment, HPA, ingress, ExternalSecrets (Vault), Liquibase DB migrations (pre-install Job), NATS JetStream Stream/Consumer CRDs, ServiceMonitor, RBAC, CronJob, MongoDB, PVC, HTTPRoute, and Envoy Gateway policies. Published at `helm repo add chirpwireless https://chirpwireless.github.io/reusable-helm-chart`.
 
 ## Key Technologies
 
